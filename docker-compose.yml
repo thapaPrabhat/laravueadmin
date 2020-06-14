@@ -1,0 +1,83 @@
+version: '3'
+services:
+
+  #PHP Service
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    #image: 7.2-fpm
+    container_name: laraGraphApp
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+      - ./Docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - app-network
+
+  #Nginx Service
+  webserver:
+    image: nginx:alpine
+    container_name: laraGraphWebserver
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "84:80"
+    volumes:
+      - ./:/var/www
+      - ./Docker/nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - app-network
+
+  #MySQL Service
+  db:
+    image: mysql:8.0.20
+    container_name: laraGraphDb
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3308:3306"
+    environment:
+      MYSQL_DATABASE: laraGraph
+      MYSQL_ROOT_PASSWORD: secret
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      #- ./mysql-data:/var/lib/mysql/
+      - dbdata:/var/lib/mysql/
+      - ./Docker/mysql/my.cnf:/etc/mysql/my.cnf
+    networks:
+      - app-network
+
+  #phpmyadmin
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: unless-stopped
+    container_name: laravelGraphPhpMyadmin
+    links:
+      - db
+    environment:
+      PMA_HOST: db  
+      PMA_PORT: 3306
+    ports:
+      - '8084:80'
+    networks:
+      app-network:
+        aliases:
+          - phpmyadmin
+    volumes:
+      - ./Docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
+#Volumes
+volumes:
+  dbdata:
+    driver: local
