@@ -64,7 +64,6 @@
         </style>
     </head>
     <body>
-    {{ dd($_SERVER)}}
         <div class="flex-center position-ref full-height">
             @if (Route::has('login'))
                 <div class="top-right links">
