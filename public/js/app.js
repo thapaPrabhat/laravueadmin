@@ -92430,9 +92430,19 @@ Vue.component('example-component', __webpack_require__(/*! ./components/ExampleC
 
 Vue.use(bootstrap_vue__WEBPACK_IMPORTED_MODULE_0__["BootstrapVue"]);
 Vue.use(bootstrap_vue__WEBPACK_IMPORTED_MODULE_0__["IconsPlugin"]);
-var app = new Vue({
-  el: '#app'
+var routes = [{
+  path: '/dashboard',
+  component: Dashboard
+}, {
+  path: '/user',
+  component: User
+}];
+var router = new VueRouter({
+  routes: routes
 });
+var app = new Vue({
+  router: router
+}).$mount('#app');
 
 /***/ }),
 

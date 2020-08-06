@@ -33,6 +33,15 @@ import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 
+const routes = [
+    { path: '/dashboard', component: Dashboard },
+    { path: '/user', component: User }
+  ]
+
+const router = new VueRouter({
+    routes
+  })
+
 const app = new Vue({
-    el: '#app',
-});
+    router
+}).$mount('#app');
