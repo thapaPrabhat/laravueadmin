@@ -2,13 +2,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">dashboard Component</div>
-
-                    <div class="card-body">
-                        I'm an dashboard component.
-                    </div>
-                </div>
+                <h1 class="text-center m-5 text-lg">DASHBOARD</h1>
             </div>
         </div>
     </div>

@@ -33,14 +33,27 @@ import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 
+import Dashboard from './views/Dashboard'
+import UsersIndex from './views/UsersIndex'
+
+import VueRouter from 'vue-router'
+
+Vue.use(VueRouter)
+
 const routes = [
-    { path: '/dashboard', component: Dashboard },
-    { path: '/user', component: User }
-  ]
+    { path: '/home', name: 'home', component: Dashboard },
+    { path: '/user', name: 'users.index', component: UsersIndex },
+    {
+        // catch all 404 - define at the very end
+        path: "*",
+        component: () => import("./views/errors/NotFound.vue")
+        }
+]
 
 const router = new VueRouter({
+    mode: 'history',
     routes
-  })
+})
 
 const app = new Vue({
     router
