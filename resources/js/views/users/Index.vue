@@ -1,5 +1,13 @@
 <template>
     <div class="users">
+        <b-button
+            variant="outline-primary"
+            :to="{ name: 'users.create' }"
+            class="float-right m-2"
+        >
+            <b-icon icon="person-plus"></b-icon> Add User
+        </b-button>
+
         <div class="loading" v-if="loading">
             Loading...
         </div>
@@ -27,7 +35,19 @@
             :current-page="meta.current_page"
             :fields="fields"
             :per-page="meta.per_page"
-        ></b-table>
+        >
+            <template v-slot:cell(actions)="data">
+                <!-- `data.value` is the value after formatted by the Formatter -->
+                <b-button
+                    variant="outline-primary"
+                    :to="{ name: 'users.edit' }"
+                    class="float-right m-2"
+                >
+                    <b-icon icon="pencil-square"></b-icon>
+                </b-button>
+                <!-- <a :href="`#${data.value.replace(/[^a-z]+/i,'-').toLowerCase()}`">{{ data.value }}</a> -->
+            </template>
+        </b-table>
 
         <b-pagination
             v-model="meta.current_page"
@@ -51,7 +71,7 @@ export default {
             },
             error: null,
             loading: false,
-            fields: ["name", "email"]
+            fields: ["name", "email", "actions"]
         };
     },
     methods: {

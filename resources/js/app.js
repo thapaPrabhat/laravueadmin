@@ -22,6 +22,16 @@ window.Vue = require('vue');
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
+window.axios.defaults.headers["X-CSRF-TOKEN"] = document.head.querySelector('meta[name="csrf-token"]').content;
+
+Vue.filter('snakeToTitleCase', function (value) {
+    if (value) {
+        return value.split('_').map(function (item) {
+            return item.charAt(0).toUpperCase() + item.substring(1);
+        }).join(' ');
+    }
+})
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -33,8 +43,15 @@ import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 
+import vSelect from 'vue-select'
+
+import 'vue-select/dist/vue-select.css';
+Vue.component('v-select', vSelect)
+
 import Dashboard from './views/Dashboard'
-import UsersIndex from './views/UsersIndex'
+import UsersIndex from './views/users/Index'
+import UsersCreate from './views/users/Create'
+import UsersEdit from './views/users/Edit'
 
 import VueRouter from 'vue-router'
 
@@ -43,11 +60,13 @@ Vue.use(VueRouter)
 const routes = [
     { path: '/home', name: 'home', component: Dashboard },
     { path: '/user', name: 'users.index', component: UsersIndex },
+    { path: '/user/create', name: 'users.create', component: UsersCreate },
+    { path: '/user/edit:id', name: 'users.edit', component: UsersEdit },
     {
         // catch all 404 - define at the very end
         path: "*",
         component: () => import("./views/errors/NotFound.vue")
-        }
+    }
 ]
 
 const router = new VueRouter({

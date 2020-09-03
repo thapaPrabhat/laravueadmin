@@ -6,7 +6,7 @@
         <router-link :to="{ name: 'home' }">Dashboard</router-link> |
         <router-link :to="{ name: 'users.index' }">User</router-link>
     </p>
-    <router-view></router-view>
+    <b-card><router-view></router-view></b-card>
     <div class="row justify-content-center">
     </div>
 </div>
