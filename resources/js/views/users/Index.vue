@@ -40,7 +40,7 @@
                 <!-- `data.value` is the value after formatted by the Formatter -->
                 <b-button
                     variant="outline-primary"
-                    :to="{ name: 'users.edit' }"
+                    :to="{ name: 'users.edit', params: {id:data.item.id} }"
                     class="float-right m-2"
                 >
                     <b-icon icon="pencil-square"></b-icon>
@@ -80,8 +80,6 @@ export default {
             const promise = axios.get(
                 "/api/users?page=" +
                     ctx.currentPage +
-                    "&size=" +
-                    ctx.perPage +
                     "&size=" +
                     ctx.perPage
             );

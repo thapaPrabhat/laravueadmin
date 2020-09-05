@@ -2223,7 +2223,7 @@ __webpack_require__.r(__webpack_exports__);
 
       this.loading = true;
       evt.preventDefault();
-      axios.post("/api/users/create", this.form).then(function (response) {
+      axios.post("/api/users", this.form).then(function (response) {
         _this.loading = false;
         _this.message = response.data.message;
 
@@ -2420,7 +2420,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    this.userCreateData();
+    this.fetchUser();
   },
   methods: {
     onSubmit: function onSubmit(evt) {
@@ -2448,14 +2448,13 @@ __webpack_require__.r(__webpack_exports__);
       this.form.permissions = [];
       this.submitErrors = [];
     },
-    userCreateData: function userCreateData() {
+    fetchUser: function fetchUser() {
       var _this2 = this;
 
-      this.loading = true;
-      axios.get("/api/users/create").then(function (response) {
+      var userId = this.$route.params.id;
+      axios.get("/api/users/" + userId + "/edit").then(function (response) {
         _this2.loading = false;
-        _this2.roles = response.data.roles;
-        _this2.permissions = response.data.permissions;
+        _this2.form = response.data.user;
       })["catch"](function (error) {
         _this2.loading = false;
         _this2.show = false;
@@ -2563,7 +2562,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       this.loading = true;
-      var promise = axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/users?page=" + ctx.currentPage + "&size=" + ctx.perPage + "&size=" + ctx.perPage);
+      var promise = axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/users?page=" + ctx.currentPage + "&size=" + ctx.perPage);
       return promise.then(function (response) {
         _this.loading = false;
         _this.users = response.data.data;
@@ -82132,7 +82131,7 @@ var render = function() {
                     staticClass: "float-right m-2",
                     attrs: {
                       variant: "outline-primary",
-                      to: { name: "users.edit" }
+                      to: { name: "users.edit", params: { id: data.item.id } }
                     }
                   },
                   [_c("b-icon", { attrs: { icon: "pencil-square" } })],
@@ -97518,7 +97517,7 @@ var routes = [{
   name: 'users.create',
   component: _views_users_Create__WEBPACK_IMPORTED_MODULE_5__["default"]
 }, {
-  path: '/user/edit:id',
+  path: '/user/edit/:id',
   name: 'users.edit',
   component: _views_users_Edit__WEBPACK_IMPORTED_MODULE_6__["default"]
 }, {

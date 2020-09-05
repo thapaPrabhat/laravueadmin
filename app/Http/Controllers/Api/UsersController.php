@@ -49,13 +49,15 @@ class UsersController extends Controller
         ], 200);
     }
 
-    public function edit($id)
+    public function edit(User $user)
     {
-        $user = User::find($id);
-        $roles = Role::pluck('name', 'id');
-        $permissions = Permission::all('name', 'id');
-
-        return view('user.edit', compact('user', 'roles', 'permissions'));
+        $roles = Role::select('name', 'id')->get();
+        $permissions = Permission::get()->pluck('formated_name', 'id');
+        return [
+            'user' => new UserResource($user),
+            'roles' => $roles,
+            'permissions' => $permissions
+        ];
     }
 
     public function update(Request $request, $id)

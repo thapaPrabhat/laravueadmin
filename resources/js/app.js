@@ -61,7 +61,7 @@ const routes = [
     { path: '/home', name: 'home', component: Dashboard },
     { path: '/user', name: 'users.index', component: UsersIndex },
     { path: '/user/create', name: 'users.create', component: UsersCreate },
-    { path: '/user/edit:id', name: 'users.edit', component: UsersEdit },
+    { path: '/user/edit/:id', name: 'users.edit', component: UsersEdit },
     {
         // catch all 404 - define at the very end
         path: "*",

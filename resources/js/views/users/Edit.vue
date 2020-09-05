@@ -144,7 +144,7 @@ export default {
         };
     },
     mounted() {
-        this.userCreateData();
+        this.fetchUser();
     },
     methods: {
         onSubmit(evt) {
@@ -172,14 +172,14 @@ export default {
             this.form.permissions = [];
             this.submitErrors = [];
         },
-        userCreateData() {
-            this.loading = true;
+
+        fetchUser() {
+            var userId = this.$route.params.id;
             axios
-                .get("/api/users/create")
+                .get("/api/users/" + userId + "/edit")
                 .then(response => {
                     this.loading = false;
-                    this.roles = response.data.roles;
-                    this.permissions = response.data.permissions;
+                    this.form = response.data.user;
                 })
                 .catch(error => {
                     this.loading = false;

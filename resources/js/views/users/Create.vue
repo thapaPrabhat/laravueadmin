@@ -138,7 +138,7 @@ export default {
             this.loading = true;
             evt.preventDefault();
             axios
-                .post("/api/users/create", this.form)
+                .post("/api/users", this.form)
                 .then(response => {
                     this.loading = false;
                     this.message = response.data.message;
